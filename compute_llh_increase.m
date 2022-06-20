@@ -25,7 +25,7 @@ r = exp(test_A * param); n = test_spikes'; meanFR_test = nanmean(test_spikes);
 log_llh_test_baseline = nansum(r-n.*log(r)+log(factorial(n)))/sum(n);
 log_llh_test_mean = nansum(meanFR_test-n.*log(meanFR_test)+log(factorial(n)))/sum(n);
 log_llh_test_final = (-log_llh_test_baseline + log_llh_test_mean);
-log_llh_test_final = log(2)*log_llh_test_final;
+log_llh_test_final = log_llh_test_final/log(2); # convert from nats to bits
 
 %% fit the model on all other variables and compute increase/decrease
 num_variables = numel(A);
@@ -63,7 +63,7 @@ for j = 1:4
     else
         log_llh_test = log_llh_test_model - log_llh_test_baseline;
     end
-    log_llh_test = log(2)*log_llh_test;
+    log_llh_test = log_llh_test/log(2); # convert from nats to bits
     
     % fill in all the relevant values for the test fit cases
     llh_increase_all(j) = log_llh_test;
